@@ -39,7 +39,7 @@ provide('getSensorValue', (sensorCode: string) => factoryData
     box-shadow: 0 0 .5em black;
 }
 .title {
-    font-size: 110%;
+    font-size: 115%;
     padding-top: 1em;
 }
 .units {
