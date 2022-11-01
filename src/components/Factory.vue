@@ -70,7 +70,7 @@ wsConnection()
 }
 
 .title {
-    font-size: var(--aspect);
+    font-size: 1.5em;
     padding-bottom: .7em;
 }
 
