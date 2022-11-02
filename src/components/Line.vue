@@ -39,14 +39,15 @@ provide('getSensorValue', (sensorCode: string) => factoryData
     box-shadow: 0 0 .5em black;
 }
 .title {
-    font-size: 115%;
-    padding-top: 1em;
+    font-size: calc(.6 * var(--aspect));
+    padding: calc(.2 * var(--aspect));
 }
 .units {
     flex: 1;
-    padding: 1em;
+    padding: calc(.3 * var(--aspect));
+    padding-top: 0;
     display: flex;
-    gap: 1em;
+    gap: calc(.7 * var(--aspect));
     justify-content: space-around;
 }
 </style>

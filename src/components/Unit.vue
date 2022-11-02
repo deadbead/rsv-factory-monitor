@@ -35,8 +35,8 @@ const sensorsAfter = unit.sensors.filter(s => s.place === 'after')
 }
 
 .title {
-    line-height: 3em;
-}
+    font-size: calc(.5 * var(--aspect));
+    padding: calc(.1 * var(--aspect));}
 .sensors {
     display: flex;
     justify-content: space-between;
