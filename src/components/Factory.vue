@@ -53,7 +53,7 @@ wsConnection();
   <div class="factory" :class="factoryClass">
     <div
       class="title"
-      :title="factoryClass.disconnected ? 'Соединение отсутсвует' : ''"
+      :title="factoryClass.connected ? 'Соединение установлено' : 'Соединение отсутсвует'"
     >
       {{ name }} {{ factoryData.time }}
     </div>
@@ -67,14 +67,13 @@ wsConnection();
 .factory {
   display: flex;
   flex-direction: column;
-  padding: 0.7em;
   height: 100vh;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .title {
-  font-size: 1.5em;
-  padding-bottom: 0.7em;
+  font-size: calc(.7 * var(--aspect));
+  padding-top: calc(.2 * var(--aspect));
 }
 
 .connected .title::before {
@@ -88,6 +87,7 @@ wsConnection();
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  gap: 3em;
+  padding: calc(.3 * var(--aspect));
+  gap: calc(.4 * var(--aspect));
 }
 </style>
