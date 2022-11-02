@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Line from "./Line.vue";
 import { ILine } from "../types";
-import { ref, provide } from "vue";
+import { ref, provide, computed } from "vue";
 import { wsNodeRedRSVArapter } from "../adapters";
 
 const factoryClass = ref<{
@@ -47,6 +47,8 @@ const wsConnection = () => {
 };
 
 wsConnection();
+
+const factoryDataTime = computed(() => (new Date(factoryData.value.time)).toLocaleString())
 </script>
 
 <template>
@@ -55,7 +57,7 @@ wsConnection();
       class="title"
       :title="factoryClass.connected ? 'Соединение установлено' : 'Соединение отсутсвует'"
     >
-      {{ name }} {{ factoryData.time }}
+      {{ name }}, <small>{{factoryDataTime}}</small>
     </div>
     <div class="lines">
       <Line v-for="line in lines" :key="line.code" v-bind="line" />
@@ -89,5 +91,9 @@ wsConnection();
   justify-content: space-evenly;
   padding: calc(.3 * var(--aspect));
   gap: calc(.4 * var(--aspect));
+}
+
+.disconnected .lines {
+  opacity: .3;
 }
 </style>

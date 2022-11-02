@@ -73,7 +73,7 @@ const sens = computed(() => {
 
 <style scoped>
 .sensor {
-  font-size: calc(.5 * var(--aspect));
+  font-size: calc(.4 * var(--aspect));
 }
 .before .sensor {
   margin-left: -.7em;
