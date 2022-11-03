@@ -19,4 +19,4 @@ interface IFactory extends INode {
     lines: ILine[]
 }
 
-export type {IFactory, ILine, IUnit, ISensor}
+export type { IFactory, ILine, IUnit, ISensor }

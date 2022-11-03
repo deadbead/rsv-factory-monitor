@@ -21,7 +21,7 @@
   -moz-osx-font-smoothing: grayscale;
   
   /* https://css-tricks.com/linearly-scale-font-size-with-css-clamp-based-on-the-viewport/ */
-  --aspect: clamp(1rem, -0.875rem + 8.333vw, 3.5rem);
+  --aspect: clamp(1rem, 0.4668rem + 2.3697vw, 3.5rem);
 }
 
 .container {

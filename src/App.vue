@@ -2,21 +2,21 @@
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 const options = factoryOptions
-import Factory from "./components/Factory.vue"
+import Factory from './components/Factory.vue'
 </script>
 
 <template>
-  <div class="container">
-    <Factory v-bind="options" />
-  </div>
+    <div class="container">
+        <Factory v-bind="options" />
+    </div>
 </template>
 
 <style scoped>
 .logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
+    filter: drop-shadow(0 0 2em #747bff);
 }
 
 .logo.vue:hover {
-  filter: drop-shadow(0 0 2em #249b73);
+    filter: drop-shadow(0 0 2em #249b73);
 }
 </style>
