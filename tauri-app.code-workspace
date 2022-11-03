@@ -1,0 +1,32 @@
+{
+	"folders": [{
+		"path": "."
+	}],
+	"settings": {
+		"editor.formatOnSave": true,
+		"editor.formatOnPaste": true,
+		"editor.codeActionsOnSave": {
+			"source.fixAll.eslint": true
+		},
+		"[vue]": {
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
+		},
+		"[typescript]": {
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
+		},
+		"[javascript]": {
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
+		}
+	},
+	"extensions": {
+		"recommendations": [
+			"Vue.volar",
+			"tauri-apps.tauri-vscode",
+			"rust-lang.rust-analyzer",
+			"esbenp.prettier-vscode",
+			"dbaeumer.vscode-eslint",
+			"EditorConfig.EditorConfig",
+			"formulahendry.auto-rename-tag"
+		]
+	}
+}
