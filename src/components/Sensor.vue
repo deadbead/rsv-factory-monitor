@@ -27,6 +27,7 @@ const sensorClass = ref<{
 }>(new Object())
 
 const getSensorValue = inject('getSensorValue')
+const setHistoryData = inject('setHistoryData')
 
 const sens = computed(() => {
     const data = getSensorValue(sensor.code)
@@ -52,7 +53,16 @@ const sens = computed(() => {
     }
 
     if (deltaValue > 0) {
+        setHistoryData({
+            sensorCode: sensor.code,
+            delta: {
+                time: deltaTime / 1000,
+                value: deltaValue,
+            },
+        })
         sensorClass.value.fresh = true
+    } else {
+        setHistoryData({ sensorCode: sensor.code })
     }
 
     if (isOutdate) {

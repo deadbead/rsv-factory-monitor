@@ -11,13 +11,11 @@ interface ILine {
 const line = defineProps<ILine>()
 
 const factoryData = inject<Ref>('factoryData')
-const isLineDataExists =
-    factoryData &&
-    Object.keys(factoryData.value).includes('lines') &&
-    Object.keys(factoryData.value.lines).includes(line.code)
 
 provide('getSensorValue', (sensorCode: string) =>
-    isLineDataExists &&
+    factoryData &&
+    Object.keys(factoryData.value).includes('lines') &&
+    Object.keys(factoryData.value.lines).includes(line.code) &&
     Object.keys(factoryData.value.lines[line.code]).includes(sensorCode)
         ? {
               time: factoryData.value.time,
@@ -25,7 +23,6 @@ provide('getSensorValue', (sensorCode: string) =>
           }
         : {}
 )
-
 </script>
 
 <template>

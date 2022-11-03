@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { provide, ref } from 'vue'
 import Sensor from './Sensor.vue'
 import { ISensor } from '../types'
+import UnitHistory from './charts/UnitHistory.vue'
 
 interface IUnit {
     code: string
@@ -13,6 +15,10 @@ const unit = defineProps<IUnit>()
 const sensorsBefore = unit.sensors.filter((s) => s.place === 'before')
 const sensorsInner = unit.sensors.filter((s) => s.place === 'inner')
 const sensorsAfter = unit.sensors.filter((s) => s.place === 'after')
+
+const drop = ref({})
+
+provide('setHistoryData', (data) => (drop.value = data))
 </script>
 
 <template>
@@ -41,6 +47,9 @@ const sensorsAfter = unit.sensors.filter((s) => s.place === 'after')
                 />
             </div>
         </div>
+        <div class="history">
+            <UnitHistory :drop="drop" />
+        </div>
     </div>
 </template>
 
@@ -60,5 +69,7 @@ const sensorsAfter = unit.sensors.filter((s) => s.place === 'after')
 .sensors {
     display: flex;
     justify-content: space-between;
+}
+.history {
 }
 </style>
