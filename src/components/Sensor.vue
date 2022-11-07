@@ -8,72 +8,66 @@ interface ISensor {
 }
 
 const outdateLimit = 10000
-
-const firstUpdate = ref<{
-    time?: string
-    value?: number
-}>(new Object())
-
-const lastUpdate = ref<{
-    time?: string
-    value?: number
-}>(new Object())
+const firstUpdate = ref()
+const lastUpdate = ref()
 
 const sensor = defineProps<ISensor>()
-const sensorClass = ref<{
-    fresh?: boolean
-    outdate?: boolean
-    init?: boolean
-}>(new Object())
+const sensorClass = ref({
+    fresh: false,
+    outdate: false,
+    init: false,
+})
 
 const getSensorValue = inject('getSensorValue')
 const setHistoryData = inject('setHistoryData')
 
 const sens = computed(() => {
-    const data = getSensorValue(sensor.code)
+    if (typeof getSensorValue === 'function') {
+        const data = getSensorValue(sensor.code)
 
-    const isInitialHook = !firstUpdate.value.time
-    const deltaTime = isInitialHook
-        ? -1
-        : parseInt(data.time) - parseInt(lastUpdate.value.time)
-    const deltaValue = isInitialHook
-        ? -1
-        : parseInt(data.value) - parseInt(lastUpdate.value.value)
-    const isOutdate = deltaTime > outdateLimit
-    const isInitialValue =
-        !isInitialHook &&
-        parseInt(data.value) === parseInt(firstUpdate.value.value)
+        const isInitialHook = !firstUpdate.value?.time
+        const deltaTime = isInitialHook
+            ? -1
+            : parseInt(data.time) - parseInt(lastUpdate.value.time)
+        const deltaValue = isInitialHook
+            ? -1
+            : parseInt(data.value) - parseInt(lastUpdate.value.value)
+        const isOutdate = deltaTime > outdateLimit
+        const isInitialValue =
+            !isInitialHook &&
+            parseInt(data.value) === parseInt(firstUpdate.value.value)
 
-    if (isInitialHook) {
-        firstUpdate.value = data
-    }
-
-    if (isInitialHook || deltaValue > 0) {
-        lastUpdate.value = data
-    }
-
-    if (deltaValue > 0) {
-        setHistoryData({
-            sensorCode: sensor.code,
-            delta: {
-                time: deltaTime / 1000,
-                value: deltaValue,
-            },
-        })
-        sensorClass.value.fresh = true
-    } else {
-        setHistoryData({ sensorCode: sensor.code })
-    }
-
-    if (isOutdate) {
-        sensorClass.value.fresh = false
-        if (data.value > 0) {
-            sensorClass.value.outdate = !isInitialValue
-            sensorClass.value.init = isInitialValue
+        if (isInitialHook || deltaValue > 0) {
+            lastUpdate.value = data
         }
-    }
 
-    return data
+        if (isInitialHook) {
+            firstUpdate.value = data
+        } else {
+            if (deltaValue > 0) {
+                sensorClass.value.fresh = true
+            }
+            if (typeof setHistoryData === 'function') {
+                setHistoryData({
+                    time: parseInt(lastUpdate.value.time) / 1000,
+                    sensorCode: sensor.code,
+                    delta: {
+                        time: deltaTime / 1000,
+                        value: deltaValue,
+                    },
+                })
+            }
+        }
+
+        if (isOutdate) {
+            sensorClass.value.fresh = false
+            if (data.value > 0) {
+                sensorClass.value.outdate = !isInitialValue
+                sensorClass.value.init = isInitialValue
+            }
+        }
+        return data
+    }
 })
 </script>
 
