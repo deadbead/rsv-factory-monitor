@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, computed, ref } from 'vue'
+import { inject, computed, ref, Ref } from 'vue'
 
 interface ISensor {
     code: string
@@ -19,7 +19,7 @@ const sensorClass = ref({
 })
 
 const getSensorValue = inject('getSensorValue')
-const setHistoryData = inject('setHistoryData')
+const history = inject<Ref>('history')
 
 const sens = computed(() => {
     if (typeof getSensorValue === 'function') {
@@ -47,15 +47,18 @@ const sens = computed(() => {
             if (deltaValue > 0) {
                 sensorClass.value.fresh = true
             }
-            if (typeof setHistoryData === 'function') {
-                setHistoryData({
-                    time: parseInt(lastUpdate.value.time) / 1000,
+
+            if (sensor.code && typeof history === 'object') {
+                const seconds = parseInt(data.time) / 1000
+
+                history.value = {
+                    time: seconds,
                     sensorCode: sensor.code,
                     delta: {
                         time: deltaTime / 1000,
                         value: deltaValue,
                     },
-                })
+                }
             }
         }
 

@@ -16,9 +16,9 @@ const sensorsBefore = unit.sensors.filter((s) => s.place === 'before')
 const sensorsInner = unit.sensors.filter((s) => s.place === 'inner')
 const sensorsAfter = unit.sensors.filter((s) => s.place === 'after')
 
-const drop = ref({})
+const history = ref()
+provide('history', history)
 
-provide('setHistoryData', (data) => (drop.value = data))
 </script>
 
 <template>
@@ -48,7 +48,7 @@ provide('setHistoryData', (data) => (drop.value = data))
             </div>
         </div>
         <div class="history">
-            <UnitHistory :drop="drop" />
+            <UnitHistory />
         </div>
     </div>
 </template>

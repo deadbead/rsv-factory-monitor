@@ -69,7 +69,9 @@ const factoryDataTime = computed(() =>
         >
             {{ name }}
         </div>
-        <div class="subtitle" v-if="factoryDataTime">{{ factoryDataTime }}</div>
+        <div class="subtitle" v-if="factoryDataTime">
+            {{ factoryDataTime }}
+        </div>
         <div class="lines">
             <Line v-for="line in lines" :key="line.code" v-bind="line" />
         </div>

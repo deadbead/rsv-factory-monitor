@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { Ref, ref, watch, inject } from 'vue'
 
-const sensor = defineProps<{
-    drop: any
-}>()
+const history = inject<Ref>('history')
+
+const local = ref()
 
 const chart = ref({
     series: [
         {
-            name: sensor.drop.sensorCode,
+            name: history?.value?.sensorCode ?? 's1',
             data: [],
         },
     ],
     options: {
         chart: {
-            height: 250,
+            height: 150,
             type: 'area',
         },
         dataLabels: {
@@ -27,35 +27,61 @@ const chart = ref({
             type: 'datetime',
             categories: [],
         },
+        tooltip: {
+            enabled: false,
+        },
     },
 })
 
-watch(
-    () => sensor.drop,
-    (prop) => {
-        const time = prop.delta.value ? prop.time - prop.delta.time : prop.time
-        chart.value.series[0].data.push(prop.delta.value)
+const randData = (val: number) => {
+    const max = 5
+    const min = 0
 
-        chart.value.options.xaxis.categories.push(time)
+    return val > 0 ?? Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+watch(
+    () => history?.value,
+    (prop) => {
+        const m = prop.time - (prop.time % 60)
+
+        local.value = {
+            ...local.value,
+            [m]:
+                local?.value && Object.keys(local.value).includes(m)
+                    ? local.value[m]
+                    : 0,
+        }
+
+        local.value[m] += prop.delta?.value ?? 0
+        //local.value[m] += randData(prop.delta?.value)
+
+        chart.value.options.xaxis.categories = Object.keys(local.value).map(
+            (k) => parseInt(k)
+        )
+        chart.value.series[0].data = Object.values(local.value).map((k) =>
+            k === 0 ? null : k
+        )
     }
 )
 </script>
 
 <template>
-    <div>
-        <small>{{ sensor }}</small>
-        <div class="chart">
-            <apexchart
-                :type="chart.options.chart.type"
-                :height="chart.options.chart.height"
-                v-bind="chart"
-            ></apexchart>
+    <div class="chart">
+        <apexchart
+            :type="chart.options.chart.type"
+            :height="chart.options.chart.height"
+            v-bind="chart"
+            v-if="0"
+        ></apexchart>
+        <small>{{ history }}</small>
+        <div>
+            <small>{{ local }}</small>
         </div>
     </div>
 </template>
 
 <style scoped>
 .chart {
-    border: 1px solid blue;
 }
 </style>
